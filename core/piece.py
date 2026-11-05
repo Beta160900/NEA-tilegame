@@ -1,22 +1,30 @@
-#tile is a shape+position
-class tile:
-    def __init__(self, row, col, shape, cells):
-        self.row = row
-        self.col = col
-        self.shape = tile.normalize(cells) 
+class piece:
+    def __init__(self, shape, color, piece_id):
+        self.__id = piece_id
+        self.__color = color
+        self.__list = shape # y = [(0,0),(0,1),(0,2),(0,3),(1,1)]
 
-    @classmethod
-    def normalize(cls, cells):
-        min_row = min(cell[0] for cell in cells)
-        min_col = min(cell[1] for cell in cells)
-        return [(cell[0] - min_row, cell[1] - min_col) for cell in cells]
-    
-    def move(self, new_row, new_col):
-        self.row = new_row
-        self.col = new_col
+    def get_id(self):
+        return self.__id
 
-    #rotation matrix: [[0, -1], [1, 0]] (90 degrees clockwise)
+    def get_color(self):
+        return self.__color
+
     def rotate(self):
-        self.shape = [(col, -row) for row, col in self.shape]
-        self.shape = tile.normalize(self.shape)
-        
+        rotated = []
+        for block in self.__list:
+            r = block[0]
+            c = block[1]
+            rotated.append((-c, r))
+        self.__list = self.__normalise(rotated)
+        #rotation matrix = [[0, -1], [1, 0]] # anticlock wise rotation
+    
+    def __normalise(lists):
+        min_row = min(block[0] for block in lists)
+        min_col = min(block[1] for block in lists)
+        normalised = []
+        for block in lists:
+            r = block[0] - min_row
+            c = block[1] - min_col
+            normalised.append((r, c))
+        return normalised

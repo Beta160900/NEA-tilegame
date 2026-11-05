@@ -1,8 +1,14 @@
 import pygame
 
 class menu_scene:
-    def __init__(self):
+    def __init__(self, manager):
         self.__name = "menu"
+        self.__manager = manager
+        self.__title_font = pygame.font.Font(None, 72)
+        self.__font = pygame.font.Font(None, 32)
+        self.__custom_btn = pygame.Rect(160, 320, 220, 70)
+        self.__ready_btn = pygame.Rect(420, 320, 220, 70)
+        
     def get_name(self):
         return self.__name
     
@@ -28,6 +34,7 @@ class menu_scene:
                 # later: self.__manager.change_scene("custom")
             elif self.__ready_btn.collidepoint(event.pos):
                 print("ready mode clicked")
+                self.__manager.change_scene("ready")
                 # later: self.__manager.change_scene("ready")
  
     # replaces main_loop: main.py owns the loop, the scene just draws
